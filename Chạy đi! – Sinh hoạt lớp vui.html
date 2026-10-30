@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chạy đi! – Sinh hoạt lớp vui</title>
+<style>
+:root{--bg:#fff4dc;--fg:#1f2937;--card:#fff;--mut:#6b7280;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--fg:#f9fafb;--card:#1f2937;--mut:#9ca3af;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111827;--fg:#f9fafb;--card:#1f2937;--mut:#9ca3af;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,"Segoe UI",Roboto,sans-serif;font-size:clamp(15px,2.8vmin,28px)}
+#app{min-height:100%;display:flex;flex-direction:column;gap:1.5vmin;padding:2vmin;box-sizing:border-box}
+h1{margin:0;font-size:clamp(28px,8vmin,90px);text-align:center;line-height:1.1}
+h1 small{display:block;font-size:clamp(14px,2.8vmin,28px);color:var(--mut);font-weight:600;margin-top:.5vmin}
+h3{margin:0 0 1vmin}
+button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:2vmin;padding:1.3vmin 2.6vmin;color:#fff;background:#7c3aed}
+button.big{font-size:clamp(20px,5vmin,56px);padding:2vmin;width:100%;background:#16a34a}
+.c{background:var(--card);border-radius:2.5vmin;padding:2vmin}
+.chip{background:var(--bg);color:var(--fg);outline:.5vmin solid transparent;margin:.5vmin}
+.chip.on{outline-color:#7c3aed;background:#ede9fe;color:#4c1d95}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:1vmin;font-weight:800}
+.q{background:var(--card);border-radius:3vmin;padding:2.5vmin;font-size:clamp(20px,5.4vmin,64px);font-weight:800;text-align:center}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:1.5vmin;flex:1}
+.t{border-radius:3vmin;color:#fff;font-weight:800;display:flex;align-items:center;gap:2vmin;padding:2vmin;font-size:clamp(16px,4.2vmin,48px);min-height:12vh;transition:.3s}
+.t b{font-size:clamp(28px,9vmin,96px)}
+.t.dim{opacity:.2}.t.ok{outline:1.2vmin solid #fff;transform:scale(1.04);box-shadow:0 0 6vmin gold}
+.tm{font-size:clamp(48px,16vmin,200px);font-weight:900;text-align:center;line-height:1;color:#dc2626}
+.st{text-align:center;font-weight:800;font-size:clamp(18px,4.5vmin,50px)}
+.ex{background:#fef9c3;color:#713f12;border-radius:2vmin;padding:2vmin;font-size:clamp(15px,3.4vmin,36px)}
+.tc{display:flex;flex-wrap:wrap;gap:1vmin;justify-content:center;align-items:center}
+.tc span{background:var(--card);border-radius:2vmin;padding:1vmin 1.6vmin}
+textarea{width:100%;min-height:30vh;box-sizing:border-box;font:inherit;border-radius:2vmin;padding:1.5vmin;background:var(--bg);color:var(--fg)}
+li{margin:.8vmin 0}
+</style></head><body><div id="app"></div>
+<script>
+const P=[
+{id:'bien',n:'Biển & nước',e:'🌊',q:[
+["Thấy bạn bị đuối nước, việc đầu tiên an toàn nhất là gì?",["Nhảy xuống kéo bạn","Hô to gọi người lớn, ném phao hoặc vật nổi","Bỏ chạy","Quay clip"],1,"Không tự lao xuống vì dễ bị người đuối nước kéo chìm theo. Hãy kêu cứu và ném phao, can nhựa hay vật nổi."],
+["Khi đi thuyền, đi phà, em nên mặc áo phao vào lúc nào?",["Khi sóng to mới mặc","Ngay từ khi bước lên phương tiện","Chỉ khi ra xa bờ","Không cần nếu biết bơi"],1,"Tai nạn xảy ra rất nhanh, nên áo phao phải mặc đúng và mặc ngay từ đầu, kể cả khi biết bơi."],
+["Đúng hay Sai: Ăn no xong có thể xuống biển tắm ngay.",["Đúng","Sai"],1,"Sau bữa ăn nên nghỉ ít nhất 30 phút rồi mới xuống nước để tránh chuột rút, khó thở."],
+["Cờ màu đỏ cắm ở bãi biển có ý nghĩa gì?",["Bãi biển an toàn","Nguy hiểm, không xuống tắm","Có bán đồ ăn","Có trò chơi"],1,"Cờ đỏ là cảnh báo sóng lớn, dòng chảy mạnh. Hãy tuân theo biển báo và nhân viên cứu hộ."],
+["Bị dòng nước cuốn ra xa bờ, em nên làm gì?",["Cố bơi thẳng vào bờ thật nhanh","Giữ bình tĩnh, nổi, bơi song song bờ rồi mới vào","Hoảng hốt vùng vẫy","Lặn xuống đáy"],1,"Dòng chảy ngầm rất mạnh. Hãy giữ sức, bơi ngang để thoát dòng rồi vào bờ và vẫy tay kêu cứu."],
+["Đúng hay Sai: Bơi giỏi thì có thể tắm biển một mình lúc vắng người.",["Đúng","Sai"],1,"Dù bơi giỏi vẫn cần đi cùng bạn hoặc người lớn, vì chuột rút, sóng và dòng chảy có thể xuất hiện bất cứ lúc nào."],
+["Bị chuột rút khi đang bơi, em nên làm gì?",["Hoảng sợ bơi thật nhanh","Bình tĩnh nổi ngửa, vẫy tay kêu cứu","Lặn xuống đáy","Im lặng chịu đựng"],1,"Nổi ngửa để giữ sức, kéo giãn cơ bị co và ra hiệu cầu cứu."]]},
+{id:'gt',n:'An toàn giao thông',e:'🚦',q:[
+["Ngồi sau xe máy có cần đội mũ bảo hiểm không?",["Không cần, vì đi gần","Chỉ cần khi ra đường lớn","Luôn phải đội và cài quai đúng cách","Chỉ người lái đội"],2,"Mũ bảo hiểm cài quai chắc chắn giúp giảm nguy cơ chấn thương sọ não. Người lái và người ngồi sau đều phải đội."],
+["Đèn tín hiệu giao thông màu đỏ có nghĩa là gì?",["Đi nhanh lên","Dừng lại trước vạch dừng","Được rẽ tự do","Bấm còi"],1,"Đèn đỏ: dừng lại trước vạch dừng, chờ đèn xanh mới đi tiếp."],
+["Đi xe đạp trên đường, em nên đi ở phía nào?",["Bên phải theo chiều đi, sát lề đường","Giữa đường","Bên trái đường","Tùy ý"],0,"Đi bên phải theo chiều đi, sát mép đường, không dàn hàng ngang, không phóng nhanh vượt ẩu."],
+["Đúng hay Sai: Vừa đi xe đạp vừa đeo tai nghe nghe nhạc rất an toàn.",["Đúng","Sai"],1,"Tai nghe và điện thoại làm em mất tập trung, không nghe được còi xe nên rất dễ gặp tai nạn."],
+["Số điện thoại gọi cấp cứu y tế là số nào?",["113","114","115","116"],2,"113 là Công an, 114 là Cứu hỏa, 115 là Cấp cứu y tế. Cả lớp nhớ nhé!"],
+["Qua đường ở vạch kẻ dành cho người đi bộ, em cần làm gì?",["Chạy thật nhanh","Quan sát hai phía, đi thẳng, không dùng điện thoại","Vừa đi vừa nhắn tin","Băng chéo cho nhanh"],1,"Dừng, nhìn, nghe rồi mới qua. Điện thoại làm em mất tập trung và rất nguy hiểm."],
+["Đúng hay Sai: Chưa đủ tuổi quy định vẫn được lái xe máy nếu chỉ đi quãng ngắn.",["Đúng","Sai"],1,"Pháp luật quy định độ tuổi tối thiểu để lái xe. Vi phạm gây nguy hiểm cho bản thân và người khác."]]},
+{id:'bn',n:'Bạn bè & bắt nạt',e:'🤝',q:[
+["Em thấy bạn bị trêu chọc, bắt nạt. Em nên làm gì?",["Cười theo cho vui","Quay đi, không phải việc của mình","Đến bên bạn và báo thầy cô","Quay clip đăng lên mạng"],2,"Hãy đứng về phía bạn và báo người lớn tin cậy. Im lặng hoặc cười theo vô tình tiếp tay cho bắt nạt."],
+["Đúng hay Sai: Đùa làm bạn buồn thì không sao vì chỉ là đùa thôi.",["Đúng","Sai"],1,"Nếu bạn không vui thì đó không còn là đùa. Hãy xin lỗi và tôn trọng cảm xúc của bạn."],
+["Bạn thân đang buồn, cách giúp bạn tốt nhất là gì?",["Lắng nghe và ở bên cạnh bạn","Bỏ mặc cho bạn tự lo","Kể chuyện của bạn cho cả lớp","Nói bạn yếu đuối"],0,"Lắng nghe, không phán xét và nhắc bạn có thể chia sẻ với thầy cô, cha mẹ khi cần."],
+["Em và bạn bất đồng ý kiến. Cách giải quyết văn minh nhất là gì?",["Đánh nhau","Bình tĩnh nói chuyện, lắng nghe, xin lỗi nếu mình sai","Nói xấu sau lưng","Nhắn tin chửi bạn"],1,"Bình tĩnh nói rõ cảm xúc, lắng nghe bạn và cùng tìm cách giải quyết."],
+["Tổng đài quốc gia bảo vệ trẻ em (miễn phí, 24/7) là số nào?",["111","113","115","19"],0,"Tổng đài 111 tiếp nhận thông tin, tư vấn và hỗ trợ khi trẻ em bị xâm hại, bạo lực. Hãy nhớ số này."],
+["Lỡ làm bạn buồn, câu nói nào thể hiện sự trưởng thành?",["Có gì đâu mà buồn","Mình xin lỗi, mình sẽ chú ý hơn","Tại bạn nhạy cảm quá","Kệ mình"],1,"Xin lỗi chân thành và sửa mình là cách giữ tình bạn bền lâu."],
+["Đúng hay Sai: Một lời khen chân thành giúp bạn tự tin và gắn kết cả lớp.",["Đúng","Sai"],0,"Lời khen đúng lúc rất có sức mạnh. Hôm nay hãy khen một bạn nhé!"]]},
+{id:'mang',n:'An toàn mạng',e:'📱',q:[
+["Đúng hay Sai: Có thể cho bạn thân biết mật khẩu tài khoản của mình.",["Đúng","Sai"],1,"Mật khẩu là bí mật riêng, không chia sẻ với ai, kể cả bạn thân."],
+["Người lạ nhắn tin kết bạn và xin ảnh riêng tư của em. Em nên làm gì?",["Gửi nếu họ nói chuyện dễ thương","Từ chối, chặn và báo cha mẹ hoặc thầy cô","Gửi ảnh cũ","Hẹn ra gặp"],1,"Không gửi ảnh hay thông tin cá nhân cho người lạ. Hãy chặn và báo ngay người lớn tin cậy."],
+["Tin nhắn: “Bạn trúng thưởng! Bấm link để nhận quà”. Em nên làm gì?",["Bấm ngay kẻo hết","Chuyển cho bạn bè","Không bấm, đó có thể là lừa đảo","Nhập mật khẩu để nhận"],2,"Tin nhắn trúng thưởng bất ngờ thường là lừa đảo. Không bấm link lạ, không nhập thông tin cá nhân."],
+["Mã OTP gửi về điện thoại em nên chia sẻ với ai?",["Bạn thân","Người tự xưng là nhân viên ngân hàng","Thầy cô","Không chia sẻ với bất kỳ ai"],3,"OTP là chìa khóa xác thực. Dù ai yêu cầu cũng không được cung cấp."],
+["Đúng hay Sai: Được đăng ảnh của bạn lên mạng mà không cần xin phép.",["Đúng","Sai"],1,"Hình ảnh là quyền riêng tư. Phải được bạn đồng ý rồi mới đăng."],
+["Mật khẩu nào an toàn hơn cả?",["123456","Tên và ngày sinh của em","Chuỗi dài gồm chữ hoa, chữ thường, số và ký hiệu","Dùng chung một mật khẩu cho mọi tài khoản"],2,"Mật khẩu dài, kết hợp nhiều loại ký tự và mỗi tài khoản một mật khẩu khác nhau."],
+["Đúng hay Sai: Chơi game nhiều giờ liền không ảnh hưởng đến mắt và giấc ngủ.",["Đúng","Sai"],1,"Hãy nghỉ giải lao, vận động và ngủ đủ giấc để cân bằng cuộc sống."]]},
+{id:'xanh',n:'Sống xanh – Biển sạch',e:'♻️',q:[
+["Chai nhựa vứt ra môi trường cần khoảng bao lâu để phân hủy?",["Vài ngày","Vài tuần","Hàng trăm năm","Đúng 1 năm"],2,"Nhựa phân hủy cực kỳ chậm, có thể hàng trăm năm, và vỡ thành vi nhựa gây hại cho sinh vật biển."],
+["Quy tắc 3R gồm: Giảm thiểu – Tái sử dụng – … ?",["Tái chế","Tái đầu tư","Tái xuất","Tái hiện"],0,"3R: Reduce (giảm thiểu), Reuse (tái sử dụng), Recycle (tái chế)."],
+["Đúng hay Sai: Túi nilon dùng một lần là thân thiện với môi trường.",["Đúng","Sai"],1,"Túi nilon khó phân hủy, gây ô nhiễm đất và biển. Hãy dùng túi vải, giỏ tre nhiều lần."],
+["Việc làm nào góp phần bảo vệ môi trường?",["Mang bình nước cá nhân đi học","Xả rác xuống biển","Đốt rác ngoài trời","Mở vòi nước chảy mãi"],0,"Dùng bình nước cá nhân giúp giảm rất nhiều chai nhựa dùng một lần."],
+["Rùa biển thường nhầm túi nilon trôi nổi với con gì và ăn phải?",["Sứa","Cá voi","Cua","Rong biển khô"],0,"Rùa biển ăn sứa. Túi nilon trôi trong nước trông giống sứa nên rùa ăn nhầm và có thể tử vong."],
+["Pin cũ nên bỏ vào đâu?",["Điểm thu gom rác thải nguy hại hoặc pin","Xuống biển","Đốt ngoài trời","Vứt ngoài vườn"],0,"Pin chứa kim loại nặng, gây hại cho đất và nước. Hãy gom riêng và mang đến điểm thu gom."],
+["Đúng hay Sai: Tắt đèn, quạt khi ra khỏi phòng giúp tiết kiệm điện.",["Đúng","Sai"],0,"Việc nhỏ làm đều đặn góp phần tiết kiệm năng lượng và giảm khí thải."]]},
+{id:'sk',n:'Sức khỏe & tinh thần',e:'💪',q:[
+["Học sinh THCS nên ngủ khoảng bao nhiêu giờ mỗi đêm?",["4–5 giờ","6 giờ","8–10 giờ","12–14 giờ"],2,"Ngủ đủ 8–10 giờ giúp cơ thể phát triển, trí nhớ và tâm trạng tốt hơn."],
+["Khi thấy căng thẳng, cách nào tốt nhất?",["Giữ trong lòng, không nói ai","Hít thở sâu, vận động nhẹ, chia sẻ với người tin cậy","Nổi cáu với bạn","Ăn vặt cả ngày"],1,"Thở sâu, vận động và trò chuyện giúp em nhẹ nhõm hơn."],
+["Đúng hay Sai: Bỏ bữa sáng không ảnh hưởng đến việc học.",["Đúng","Sai"],1,"Bữa sáng cung cấp năng lượng giúp em tập trung suốt buổi học."],
+["Trong ngày, em nên uống nước như thế nào?",["Chỉ uống khi khát khô cổ","Uống nước lọc đều đặn","Uống nước ngọt thay nước lọc","Không cần uống khi trời mát"],1,"Nước lọc đều đặn tốt hơn nước ngọt, giúp cơ thể và não bộ hoạt động tốt."],
+["Đúng hay Sai: Buồn kéo dài thì nên nói với người lớn tin cậy, đó không phải là yếu đuối.",["Đúng","Sai"],0,"Chia sẻ là dấu hiệu của sự dũng cảm. Thầy cô, cha mẹ luôn sẵn sàng lắng nghe."]]},
+{id:'ky',n:'Ứng phó khẩn cấp',e:'🆘',q:[
+["Phát hiện cháy nhỏ trong nhà, em nên làm gì?",["Lại gần xem","Hô báo mọi người, thoát ra ngoài, gọi 114","Trốn dưới gầm giường","Mở hết cửa sổ"],1,"Ưu tiên thoát hiểm và báo cháy qua số 114. Không quay lại lấy đồ."],
+["Thoát khỏi nhà nhiều khói, em nên?",["Đứng thẳng chạy","Cúi thấp, che mũi bằng khăn ướt","Hít thật sâu","Đi thang máy"],1,"Khói bay lên cao nên cúi thấp dễ thở hơn. Không đi thang máy khi có cháy."],
+["Khi có bão, em nên làm gì?",["Ra biển xem sóng","Ở trong nhà chắc chắn, theo dõi thông tin chính quyền","Leo lên mái nhà","Đi câu cá"],1,"Giữ an toàn trong nhà, chuẩn bị nước, đèn pin và nghe thông báo chính thức."],
+["Bị cắt chảy máu ở tay, bước sơ cứu đầu tiên là gì?",["Bôi kem đánh răng","Rửa sạch, ấn gạc sạch để cầm máu","Để hở không băng","Cắn vào vết thương"],1,"Rửa sạch, ép cầm máu bằng gạc sạch. Nếu nặng thì đưa đến cơ sở y tế."],
+["Bị lạc ở nơi đông người, em nên làm gì?",["Chạy khắp nơi tìm","Đứng yên chỗ an toàn, nhờ nhân viên hoặc công an giúp","Đi theo người lạ","Khóc rồi bỏ chạy"],1,"Nhớ số điện thoại của cha mẹ và nhờ người mặc đồng phục hỗ trợ."]]},
+{id:'hoc',n:'Học tập & thói quen',e:'📚',q:[
+["Cách học nào giúp nhớ lâu nhất?",["Học dồn đêm trước kiểm tra","Ôn ngắn, nhiều lần, tự giảng lại cho bạn","Chỉ đọc lướt","Chép nguyên văn"],1,"Ôn cách quãng và tự giảng lại giúp ghi nhớ sâu hơn."],
+["Đúng hay Sai: Vừa học vừa lướt điện thoại giúp học hiệu quả hơn.",["Đúng","Sai"],1,"Chia nhỏ sự chú ý làm em học chậm và nhớ kém. Hãy tắt thông báo khi học."],
+["Gặp bài khó, em nên làm gì?",["Bỏ qua mãi","Chép bài bạn","Thử cách khác, hỏi bạn hoặc thầy cô, ghi chỗ chưa hiểu","Chờ đến lúc thi"],2,"Chủ động hỏi và thử nhiều cách giúp em tiến bộ."],
+["Mục tiêu nào rõ ràng, đo được nhất?",["Học giỏi hơn","Mỗi ngày làm 5 câu toán trong 20 phút, suốt 4 tuần","Cố gắng nhiều hơn","Sẽ thành công"],1,"Mục tiêu tốt cần cụ thể, đo được và có thời hạn."],
+["Đúng hay Sai: Sai lầm là cơ hội học hỏi, không phải để tự trách mình.",["Đúng","Sai"],0,"Ai cũng mắc lỗi. Điều quan trọng là rút kinh nghiệm và thử lại."]]},
+{id:'bd',n:'Biển đảo quê hương',e:'🏝️',q:[
+["Quần đảo Hoàng Sa và Trường Sa thuộc chủ quyền của nước nào?",["Việt Nam","Nước khác","Không thuộc nước nào","Chưa xác định"],0,"Hoàng Sa và Trường Sa là một phần lãnh thổ của Việt Nam. Em có trách nhiệm tìm hiểu và gìn giữ."],
+["Ngày Đại dương thế giới là ngày nào?",["8/3","8/6","5/6","22/4"],1,"Ngày 8/6 hằng năm là Ngày Đại dương thế giới, nhắc chúng ta bảo vệ biển."],
+["Đúng hay Sai: Rạn san hô là nhà của rất nhiều loài sinh vật biển.",["Đúng","Sai"],0,"San hô rất dễ tổn thương. Không giẫm đạp, không bẻ san hô mang về."],
+["Thấy sao biển, ốc, san hô đẹp, em nên làm gì?",["Bẻ, nhặt mang về","Ngắm, chụp ảnh và để nguyên tại chỗ","Đạp lên cho vui","Bán lại cho khách"],1,"Giữ nguyên sinh vật biển ở nơi sống của chúng để biển luôn đẹp và đa dạng."],
+["Đúng hay Sai: Đánh bắt cá bằng xung điện hay thuốc nổ là cách khai thác bền vững.",["Đúng","Sai"],1,"Đây là hành vi bị cấm, hủy diệt nguồn lợi hải sản. Khai thác bền vững là giữ biển cho mai sau."]]}
+];
+const CH=["🦘 Nhảy tại chỗ 10 cái, cả lớp đếm to!","🦆 Đi như vịt quanh lớp trong 10 giây!","🧘 Hít vào 4 giây, thở ra 6 giây. Làm 3 lần!","🤝 Bắt tay và khen một bạn gần nhất một câu!","🕺 Nhảy tự do 15 giây!","🙌 Vỗ tay theo nhịp 1-2-3, nhanh dần lên!","🐢 Đứng một chân, ai đứng lâu nhất là quán quân thăng bằng!","🐒 Cả lớp bắt chước một con vật mà thầy cô chỉ định!"];
+const TM=[["🦁","Sư tử"],["🐬","Cá heo"],["🐢","Rùa biển"],["🦅","Đại bàng"]];
+const COL=['#ef4444','#3b82f6','#22c55e','#f59e0b'],L='ABCD';
+let S={s:'home',pk:'all',tn:0,sec:10,q:[],i:0,ph:'q',t:0,sc:[],cu:[],ch:'',m:''},T=null,ac=null,CUS=[],RAW='';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function snd(f,d,ty,v){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain();o.type=ty||'sine';o.frequency.value=f;g.gain.value=v||.15;o.connect(g);g.connect(ac.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.stop(ac.currentTime+d)}catch(e){}}
+function tune(a){a.forEach((f,i)=>setTimeout(()=>snd(f,.25,'triangle'),i*150))}
+function load(){try{const d=JSON.parse(localStorage.getItem('sh_cus'));CUS=d.r||[];RAW=d.t||''}catch(e){CUS=[];RAW=''}}
+function persist(){try{localStorage.setItem('sh_cus',JSON.stringify({r:CUS,t:RAW}))}catch(e){}}
+function parse(txt){const r=[];String(txt).split('\n').forEach(l=>{const p=l.split('|').map(x=>x.trim());for(let j=3;j<=5&&j<p.length;j++){if(/^[A-Da-d]$/.test(p[j])){const a=p[j].toUpperCase().charCodeAt(0)-65,o=p.slice(1,j);if(p[0]&&a<o.length&&o.every(x=>x)){r.push([p[0],o,a,p[j+1]||'']);}break}}});return r}
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function pool(){if(S.pk==='cus'&&CUS.length)return shuf(CUS);if(S.pk==='all'||S.pk==='cus')return shuf([].concat(...P.map(p=>p.q))).slice(0,10);const p=P.find(x=>x.id===S.pk);return shuf(p.q)}
+function set(k,v){S[k]=v;render()}
+function home(){clearInterval(T);S.s='home';render()}
+function edit(){S.s='edit';S.m='';render()}
+function start(){const q=pool();if(!q.length)return;clearInterval(T);S.q=q;S.i=0;S.ph='q';S.sc=Array(S.tn).fill(0);S.cu=Array(S.tn).fill(0);S.s='game';try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}snd(660,.2);render()}
+function startRun(){S.ph='run';S.t=S.sec;snd(880,.2);clearInterval(T);T=setInterval(tick,1000);render()}
+function tick(){S.t--;if(S.t>0){snd(S.t<=3?880:520,.1)}else{clearInterval(T);S.t=0;S.ph='frz';snd(200,.6,'sawtooth')}render()}
+function stopEarly(){clearInterval(T);S.ph='frz';snd(200,.6,'sawtooth');render()}
+function reveal(){S.ph='rev';tune([523,659,784]);render()}
+function adj(k,d){S.cu[k]=Math.max(0,S.cu[k]+d);snd(600,.08);render()}
+function next(){S.sc=S.sc.map((v,k)=>v+S.cu[k]);S.cu=S.cu.map(()=>0);S.i++;if(S.i>=S.q.length){S.s='end';tune([523,659,784,1047])}else if(S.i%3===0){S.ph='ch';S.ch=CH[Math.floor(Math.random()*CH.length)];tune([392,523])}else S.ph='q';render()}
+function afterCh(){S.ph='q';render()}
+function saveEd(){const tx=$('tx').value;RAW=tx;if(!tx.trim()){CUS=[];persist();if(S.pk==='cus')S.pk='all';S.m='🗑️ Đã xóa bộ câu hỏi của lớp.';render();return}const r=parse(tx);if(!r.length){S.m='⚠️ Chưa có dòng nào hợp lệ. Xem ví dụ bên dưới.';render();return}CUS=r;persist();S.pk='cus';S.m='✅ Đã lưu '+r.length+' câu và đã chọn sẵn chủ đề “Của lớp mình”. Bấm “Về trang đầu” để chơi.';render()}
+function score(){return S.tn?'<div class="tc">'+S.sc.map((v,k)=>`<span>${TM[k][0]} <b>${v}</b></span>`).join('')+'</div>':''}
+function render(){
+const a=$('app');
+if(S.s==='home'){
+const chips=[['all','🎲','Tổng hợp 10 câu']].concat(P.map(p=>[p.id,p.e,p.n]));if(CUS.length)chips.push(['cus','✏️','Của lớp mình ('+CUS.length+')']);
+a.innerHTML=`<h1>🏃 CHẠY ĐI!<small>Sinh hoạt lớp vui – học bằng đôi chân</small></h1>
+<div class="c"><h3>1. Chọn chủ đề</h3>${chips.map(c=>`<button class="chip ${S.pk===c[0]?'on':''}" onclick="set('pk','${c[0]}')">${c[1]} ${esc(c[2])}</button>`).join('')}</div>
+<div class="c"><h3>2. Chia đội</h3>${[0,2,3,4].map(v=>`<button class="chip ${S.tn===v?'on':''}" onclick="set('tn',${v})">${v?v+' đội':'Cả lớp (không chia đội)'}</button>`).join('')}</div>
+<div class="c"><h3>3. Thời gian chạy mỗi câu</h3>${[8,10,15].map(v=>`<button class="chip ${S.sec===v?'on':''}" onclick="set('sec',${v})">${v} giây</button>`).join('')}</div>
+<button class="big" onclick="start()">▶ BẮT ĐẦU</button>
+<button onclick="edit()">✏️ Tự soạn câu hỏi cho lớp mình</button>
+<div class="c"><h3>📋 Cách chơi</h3><ol><li>Dán 4 tờ giấy <b>A, B, C, D</b> ở 4 góc lớp (A–B gần bảng, C–D cuối lớp; A, C bên trái). Câu Đúng/Sai: A = bên trái, B = bên phải.</li><li>Xoay điện thoại ngang, chiếu lên TV.</li><li>Đọc câu hỏi, bấm <b>CHẠY ĐI!</b>. Cả lớp chạy về góc mình chọn trước khi hết giờ.</li><li>Hết giờ cả lớp <b>đứng im</b>. Công bố đáp án và đọc lời giải thích.</li><li>Chia đội: sau mỗi câu bấm + cho số bạn trả lời đúng của mỗi đội.</li></ol></div>`;return}
+if(S.s==='edit'){
+a.innerHTML=`<h1>✏️ Câu hỏi của lớp mình</h1><div class="c"><p>Mỗi dòng một câu theo mẫu: <b>Câu hỏi | Đáp án A | Đáp án B | Đáp án C | Đáp án D | Đáp án đúng (chữ cái) | Giải thích</b><br>Chỉ có 2 đáp án (Đúng/Sai) thì viết: Câu hỏi | Đúng | Sai | B | Giải thích</p>
+<textarea id="tx" placeholder="Giờ ra chơi em nên làm gì? | Chạy nhảy trong hành lang | Chơi ở sân trường | Trèo lan can | Ở lì trong lớp | B | Sân trường rộng và an toàn hơn hành lang.">${esc(RAW)}</textarea>
+<p>${esc(S.m)}</p></div><button class="big" onclick="saveEd()">💾 Lưu câu hỏi</button><button onclick="home()">🏠 Về trang đầu</button>`;return}
+if(S.s==='end'){
+const rk=S.tn?S.sc.map((v,k)=>[v,k]).sort((x,y)=>y[0]-x[0]):[];
+a.innerHTML=`<h1>🎉 HOÀN THÀNH!<small>Cả lớp đã vận động và học được ${S.q.length} điều bổ ích</small></h1>
+${S.tn?`<div class="c"><h3>🏆 Bảng xếp hạng</h3>${rk.map((r,i)=>`<div class="st">${['🥇','🥈','🥉','🏅'][i]} ${TM[r[1]][0]} Đội ${TM[r[1]][1]}: ${r[0]} điểm</div>`).join('')}</div>`:''}
+<div class="c"><h3>📌 Ghi nhớ hôm nay</h3><ul>${S.q.map(q=>`<li>${esc(q[3])}</li>`).join('')}</ul></div>
+<button class="big" onclick="start()">🔁 Chơi lại</button><button onclick="home()">🏠 Về trang đầu</button>`;return}
+const hd=`<div class="hd"><span>Câu ${Math.min(S.i+1,S.q.length)}/${S.q.length}</span>${score()}<button onclick="home()">✕</button></div>`;
+if(S.ph==='ch'){
+a.innerHTML=hd+`<div class="q">⚡ THỬ THÁCH VẬN ĐỘNG<br>${esc(S.ch)}</div><button class="big" onclick="afterCh()">▶ Tiếp tục câu ${S.i+1}</button>`;return}
+const q=S.q[S.i],n=q[1].length,rev=S.ph==='rev';
+let st='';
+if(S.ph==='q')st=n===2?'Đọc to câu hỏi, rồi bấm CHẠY ĐI! A = bên trái, B = bên phải':'Đọc to câu hỏi, rồi bấm CHẠY ĐI!';
+if(S.ph==='run')st=`<div class="tm">${S.t}</div>🏃 CHẠY VỀ GÓC EM CHỌN!`;
+if(S.ph==='frz')st='❄️ ĐỨNG IM! Không đổi góc nữa!';
+if(rev)st=`✅ Đáp án đúng: ${L[q[2]]}. ${esc(q[1][q[2]])}`;
+const tl=q[1].map((o,k)=>{const c=n===2?COL[[2,1][k]]:COL[k];return `<div class="t ${rev?(k===q[2]?'ok':'dim'):''}" style="background:${c}"><b>${L[k]}</b><span>${esc(o)}</span></div>`}).join('');
+let ctl='';
+if(S.ph==='q')ctl=`<button class="big" onclick="startRun()">🏃 CHẠY ĐI! (${S.sec} giây)</button>`;
+if(S.ph==='run')ctl=`<button class="big" style="background:#dc2626" onclick="stopEarly()">⏹ Dừng sớm</button>`;
+if(S.ph==='frz')ctl=`<button class="big" onclick="reveal()">🎉 Công bố đáp án</button>`;
+if(rev){ctl=`<div class="ex">💡 ${esc(q[3])}</div>`;
+if(S.tn)ctl+=`<div class="c"><b>Số bạn trả lời đúng của mỗi đội:</b><div class="tc">${S.cu.map((v,k)=>`<span>${TM[k][0]} ${TM[k][1]} <button onclick="adj(${k},-1)">−</button> <b>${v}</b> <button onclick="adj(${k},1)">+</button></span>`).join('')}</div></div>`;
+ctl+=`<button class="big" onclick="next()">${S.i+1>=S.q.length?'🏁 Xem kết quả':'▶ Câu tiếp'}</button>`}
+a.innerHTML=hd+`<div class="q">${esc(q[0])}</div><div class="st">${st}</div><div class="g">${tl}</div>${ctl}`}
+load();render();
+</script></body></html>

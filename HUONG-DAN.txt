@@ -1,0 +1,17 @@
+CHẠY ĐI! – App sinh hoạt lớp (web app tĩnh, 1 file)
+
+NỘI DUNG GÓI
+- index.html : toàn bộ ứng dụng (HTML + CSS + JS), không cần thư viện ngoài, không cần internet để chạy.
+
+CÁCH TRIỂN KHAI (chọn 1)
+1. Máy chủ web của trường/sở: chép index.html vào thư mục web (Nginx, Apache, IIS...). Truy cập: http://tên-miền/ 
+2. GitHub Pages / Netlify / Cloudflare Pages: tải thư mục này lên, trỏ trang chủ là index.html.
+3. Chạy tại chỗ, không mạng: mở trực tiếp index.html bằng Chrome/Edge/Safari trên điện thoại hoặc máy tính.
+4. Nhúng vào web app có sẵn: dùng <iframe src="/duong-dan/index.html" style="width:100%;height:100vh;border:0"></iframe>
+
+LƯU Ý
+- Nên dùng HTTPS để tính năng giữ màn hình luôn sáng hoạt động (không bắt buộc).
+- Câu hỏi riêng của lớp lưu trong trình duyệt (localStorage), theo từng thiết bị và từng tên miền.
+- Thêm/sửa câu hỏi mặc định: mở index.html, tìm mảng "const P=[" ở đầu phần <script>.
+  Mỗi câu: ["Câu hỏi",["Đáp án A","Đáp án B",...],chỉ số đáp án đúng (0=A, 1=B...),"Lời giải thích"]
+- Cách chơi: dán giấy A, B, C, D ở 4 góc lớp; xoay điện thoại ngang, chiếu lên TV.
